@@ -1,5 +1,5 @@
 function App() {
-    return <div>Hello, ViteJS</div>;
+    return <div>Hello, Khoa day</div>;
 }
 
 export default App;
