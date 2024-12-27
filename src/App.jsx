@@ -38,12 +38,13 @@ function App() {
                     />
                 </div>
                 <div className="flex justify-center mt-6">
-                    <input
+                    <button
                         type="button"
                         className="bg-green-600 w-[120px] h-[45px] rounded-lg mb-5 font-semibold text-white"
                         onClick={() => handleSearch(cityName.trim())}
-                        value="Search"
-                    />
+                    >
+                        Search
+                    </button>
                 </div>
                 <div className="block justify-center w-full text-center">
                     {typeof weatherResult.main !== "undefined" ? (
