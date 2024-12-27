@@ -8,30 +8,32 @@ const api = {
 function App() {
     const [cityName, setCityName] = useState("");
 
-    const [weatherResult, setweatherResult] = useState({});
+    const [weatherResult, setweatherResult] = useState(null);
 
-    const [isFirst, setIsFirst] = useState(true);
+    const [isBegin, setIsBegin] = useState(true);
 
     const handleSearch = (city) => {
-        fetch(`${api.base}weather?q=${city}&units=metric&APPID=${api.key}`)
+        const trimmedCity = city.trim();
+        if (!trimmedCity) return;
+        fetch(`${api.base}weather?q=${trimmedCity}&units=metric&APPID=${api.key}`)
             .then((res) => res.json())
             .then((result) => {
                 setweatherResult(result);
             });
         setCityName("");
-        if (isFirst) setIsFirst(false);
+        if (isBegin) setIsBegin(false);
     };
 
     return (
-        <div className="block justify-items-center bg-green-200 justify-center h-[100vh] pt-[150px]">
-            <div className="block bg-white w-[400px] justify-center px-[40px] py-[40px] rounded-md">
+        <div className="flex justify-center items-center bg-green-200 h-screen">
+            <div className="bg-white w-1/2 md:w-1/3 justify-center px-10 py-10 rounded-md">
                 <div className="flex justify-center mb-5">
                     <div className="text-4xl font-bold text-green-400">Weather App</div>
                 </div>
                 <div className="flex justify-center">
                     <input
-                        className="h-[40px] w-full border-solid border-[3px]
-             border-black rounded-lg bg-green-100 px-4"
+                        className="h-10 w-full border-solid border-2 border-black
+                         rounded-lg bg-green-100 px-4"
                         placeholder="Enter city name..."
                         value={cityName}
                         onChange={(e) => setCityName(e.target.value)}
@@ -40,15 +42,15 @@ function App() {
                 <div className="flex justify-center mt-6">
                     <button
                         type="button"
-                        className="bg-green-600 w-[120px] h-[45px] rounded-lg mb-5 font-semibold text-white"
-                        onClick={() => handleSearch(cityName.trim())}
+                        className="bg-green-600 w-32 h-12 rounded-lg mb-5 text-lg font-semibold text-white"
+                        onClick={() => handleSearch(cityName)}
                     >
                         Search
                     </button>
                 </div>
-                <div className="block justify-center w-full text-center">
-                    {typeof weatherResult.main !== "undefined" ? (
-                        <div className="bg-green-200 rounded-lg py-[10px]">
+                <div className="text-center">
+                    {weatherResult !== null && typeof weatherResult.main !== "undefined" ? (
+                        <div className="bg-green-200 rounded-lg py-2">
                             <div id="cityName" className="font-semibold text-2xl">
                                 {weatherResult.name}
                             </div>
@@ -59,12 +61,12 @@ function App() {
                                 <div className="text-xl font-semibold text-gray-600">
                                     {weatherResult.weather[0].main}
                                 </div>
-                                <div className="text-sm">
+                                <div className="text-lg">
                                     {weatherResult.weather[0].description}
                                 </div>
                             </div>
                         </div>
-                    ) : isFirst ? (
+                    ) : isBegin ? (
                         <div className="text-green-500 font-semibold pt-4">Welcome!</div>
                     ) : (
                         <div className="text-red-500 font-semibold pt-4">
