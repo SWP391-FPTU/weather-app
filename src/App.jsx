@@ -10,8 +10,6 @@ function App() {
 
     const [weatherResult, setweatherResult] = useState(null);
 
-    const [isBegin, setIsBegin] = useState(true);
-
     const handleSearch = (city) => {
         const trimmedCity = city.trim();
         if (!trimmedCity) return;
@@ -21,7 +19,6 @@ function App() {
                 setweatherResult(result);
             });
         setCityName("");
-        if (isBegin) setIsBegin(false);
     };
 
     return (
@@ -32,7 +29,7 @@ function App() {
                 </div>
                 <div className="flex justify-center">
                     <input
-                        className="h-10 w-full border-solid border-2 border-black
+                        className="h-10 w-full border-2 border-black
                          rounded-lg bg-green-100 px-4"
                         placeholder="Enter city name..."
                         value={cityName}
@@ -49,7 +46,9 @@ function App() {
                     </button>
                 </div>
                 <div className="text-center">
-                    {weatherResult !== null && typeof weatherResult.main !== "undefined" ? (
+                    {weatherResult === null ? (
+                        <div className="text-green-500 font-semibold pt-4">Welcome!</div>
+                    ) : typeof weatherResult.main !== "undefined" ? (
                         <div className="bg-green-200 rounded-lg py-2">
                             <div id="cityName" className="font-semibold text-2xl">
                                 {weatherResult.name}
@@ -66,8 +65,6 @@ function App() {
                                 </div>
                             </div>
                         </div>
-                    ) : isBegin ? (
-                        <div className="text-green-500 font-semibold pt-4">Welcome!</div>
                     ) : (
                         <div className="text-red-500 font-semibold pt-4">
                             City not found! Try another city.
